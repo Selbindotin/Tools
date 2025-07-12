@@ -3,87 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Smart Date Tools</title>
+  <title>Smart Tools</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #f1f5f9;
-      color: #333;
-    }
-
-    h1 {
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    .tiles {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
-      gap: 15px;
-      padding: 10px 20px;
-    }
-
-    .tile {
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      background: #121212;
       color: white;
-      padding: 25px 15px;
-      border-radius: 16px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: 500;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-      cursor: pointer;
-      transition: transform 0.25s ease, opacity 0.25s;
-      text-decoration: none;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
     }
 
-    .tile:hover {
+    header {
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8em;
+      font-weight: bold;
+      background: linear-gradient(45deg, #2193b0, #6dd5ed);
+      color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    a.tile {
+      background: #1e1e1e;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+      text-decoration: none;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    a.tile:hover {
       transform: translateY(-5px);
-      opacity: 0.95;
+      background: #2a2a2a;
     }
 
-    .tile i {
-      font-size: 28px;
-      margin-bottom: 8px;
+    .tile .icon {
+      font-size: 2.5em;
+    }
+
+    .tile span {
       display: block;
-    }
-
-    @media (max-width: 480px) {
-      .tiles {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      font-size: 1.1em;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 
-  <h1>🧮 Smart Date Tools</h1>
+  <header>Smart Tools</header>
 
-  <div class="tiles">
-    <a href="https://yourdomain.com/age" class="tile">
-      <i>🎂</i>
-      Age Calculator
+  <div class="grid">
+    <a class="tile" href="https://yourdomain.com/age-calculator" target="_blank">
+      <div class="icon">🎂</div>
+      <span>Age Calculator</span>
     </a>
-    <a href="https://yourdomain.com/days-between" class="tile">
-      <i>📅</i>
-      Days Between
+    <a class="tile" href="https://yourdomain.com/date-difference" target="_blank">
+      <div class="icon">📆</div>
+      <span>Date Difference</span>
     </a>
-    <a href="https://yourdomain.com/days-tofrom" class="tile">
-      <i>🔁</i>
-      Days To/From
+    <a class="tile" href="https://yourdomain.com/days-until" target="_blank">
+      <div class="icon">⏳</div>
+      <span>Days Until/From</span>
     </a>
-    <a href="https://yourdomain.com/future-date" class="tile">
-      <i>⏩</i>
-      Future Date
+    <a class="tile" href="https://emi.selbin.in/" target="_blank">
+      <div class="icon">🏦</div>
+      <span>Loan Certificate</span>
     </a>
-    <a href="https://yourdomain.com/dob-from-age" class="tile">
-      <i>📆</i>
-      DOB from Age
+    <a class="tile" href="https://yourdomain.com/pdf-compressor" target="_blank">
+      <div class="icon">🗜️</div>
+      <span>PDF Compressor</span>
+    </a>
+    <a class="tile" href="https://yourdomain.com/qr-scanner" target="_blank">
+      <div class="icon">📷</div>
+      <span>QR Scanner</span>
+    </a>
+    <a class="tile" href="https://yourdomain.com/whatsapp-sender" target="_blank">
+      <div class="icon">💬</div>
+      <span>WhatsApp Sender</span>
+    </a>
+    <a class="tile" href="https://yourdomain.com/timeline-background" target="_blank">
+      <div class="icon">🕒</div>
+      <span>Timeline Background</span>
+    </a>
+    <a class="tile" href="https://yourdomain.com/expense-tracker" target="_blank">
+      <div class="icon">💰</div>
+      <span>Expense Tracker</span>
     </a>
   </div>
 
