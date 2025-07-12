@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Tools</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #121212;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8em;
+      font-weight: bold;
+      background: linear-gradient(45deg, #2193b0, #6dd5ed);
+      color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .tile {
+      background: #1e1e1e;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .tile:hover {
+      transform: translateY(-5px);
+      background: #2a2a2a;
+    }
+
+    .tile span {
+      display: block;
+      font-size: 1.1em;
+      margin-top: 10px;
+    }
+
+    .icon {
+      font-size: 2.5em;
+    }
+  </style>
+  <script>
+    function openTool(url) {
+      window.location.href = url;
+    }
+  </script>
+</head>
+<body>
+
+  <header>Smart Tools</header>
+
+  <div class="grid">
+    <div class="tile" onclick="openTool('age-calculator.html')">
+      <div class="icon">🎂</div>
+      <span>Age Calculator</span>
+    </div>
+    <div class="tile" onclick="openTool('days-between.html')">
+      <div class="icon">📆</div>
+      <span>Days Between Dates</span>
+    </div>
+    <div class="tile" onclick="openTool('days-to-date.html')">
+      <div class="icon">⏳</div>
+      <span>Days to/from Date</span>
+    </div>
+    <div class="tile" onclick="openTool('loan-certificate.html')">
+      <div class="icon">🏦</div>
+      <span>Loan Certificate</span>
+    </div>
+    <div class="tile" onclick="openTool('pdf-compressor.html')">
+      <div class="icon">🗜️</div>
+      <span>PDF Compressor</span>
+    </div>
+    <div class="tile" onclick="openTool('qr-scanner.html')">
+      <div class="icon">📷</div>
+      <span>QR Scanner</span>
+    </div>
+    <div class="tile" onclick="openTool('whatsapp-sender.html')">
+      <div class="icon">💬</div>
+      <span>WhatsApp Sender</span>
+    </div>
+    <div class="tile" onclick="openTool('timeline-background.html')">
+      <div class="icon">🕒</div>
+      <span>Timeline Background</span>
+    </div>
+    <div class="tile" onclick="openTool('expense-tracker.html')">
+      <div class="icon">💰</div>
+      <span>Expense Tracker</span>
+    </div>
+  </div>
+
+</body>
+</html>
