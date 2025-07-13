@@ -54,6 +54,7 @@
     .results, .download-table {
       margin-top: 2rem;
       text-align: center;
+      display: none;
     }
     table {
       width: 100%;
@@ -101,14 +102,13 @@
 
     <button onclick="calculateSIP()">Calculate</button>
 
-    <div class="results">
+    <div class="results" id="result-section">
       <p><strong>Total Invested:</strong> ₹<span id="invested">0</span></p>
       <p><strong>Estimated Returns:</strong> ₹<span id="returns">0</span></p>
       <p><strong>Future Value:</strong> ₹<span id="total">0</span></p>
     </div>
 
-    <div class="download-table">
-      <button onclick="downloadTable()">Download CSV</button>
+    <div class="download-table" id="table-section">
       <button onclick="shareImage()">Share Result as Image</button>
       <div id="table-container"></div>
     </div>
@@ -123,6 +123,10 @@
       const y = parseInt(document.getElementById('years').value) || 0;
       const m = parseInt(document.getElementById('months').value) || 0;
       const n = y * freq + Math.floor(m * freq / 12);
+
+      if (P <= 0 && lumpsum <= 0) return alert("Enter SIP or Lump Sum amount");
+      if (r <= 0 || isNaN(r)) return alert("Enter a valid return rate");
+      if (n <= 0) return alert("Enter a valid investment term");
 
       let sipFV = 0, invested = lumpsum;
       let tableHTML = `<table><tr><th>Period</th><th>Invested</th><th>Value</th></tr>`;
@@ -143,24 +147,9 @@
       document.getElementById('total').textContent = totalFV.toFixed(2);
 
       document.getElementById('table-container').innerHTML = tableHTML;
-    }
 
-    function downloadTable() {
-      const table = document.querySelector('#table-container table');
-      if (!table) return alert("No report to download");
-
-      let csv = '';
-      const rows = table.querySelectorAll('tr');
-      rows.forEach(row => {
-        const cols = row.querySelectorAll('td, th');
-        csv += Array.from(cols).map(col => col.textContent).join(',') + '\n';
-      });
-
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'sip_report.csv';
-      a.click();
+      document.getElementById('result-section').style.display = 'block';
+      document.getElementById('table-section').style.display = 'block';
     }
 
     function shareImage() {
