@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Font Awesome for social icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+
   <!-- Google Tag Manager -->
   <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -9,7 +12,6 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-N7K98GS2');
   </script>
-  <!-- End Google Tag Manager -->
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-MQ274LLYZW"></script>
@@ -106,42 +108,68 @@
       margin-top: 10px;
     }
 
-    .share-bar {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin: 20px auto;
-      background: #1e1e1e;
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-size: 1.4em;
-      align-items: center;
-      color: #aaa;
-      max-width: 90%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    /* Floating Share Button Styles */
+    .floating-share {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
     }
 
-    .share-bar a,
-    .share-bar button {
+    .share-main {
+      background-color: #2193b0;
+      border: none;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      font-size: 22px;
       color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .share-main:hover {
+      transform: scale(1.1);
+    }
+
+    .share-options {
+      display: none;
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      background: #1e1e1e;
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .share-options a,
+    .share-options button {
       background: none;
       border: none;
-      font-size: 1.3em;
+      color: white;
+      font-size: 20px;
       cursor: pointer;
-      transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px;
     }
 
-    .share-bar a:hover,
-    .share-bar button:hover {
-      transform: scale(1.2);
+    .share-options a:hover,
+    .share-options button:hover {
+      color: #00e6e6;
     }
   </style>
 </head>
 <body>
+
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7K98GS2"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
 
   <header>Smart Tools</header>
 
@@ -168,16 +196,26 @@
     </a>
   </main>
 
-  <div class="share-bar">
-    <span>Share:</span>
-    <a href="https://api.whatsapp.com/send?text=https://tools.selbin.in" target="_blank" title="WhatsApp">🟢</a>
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https://tools.selbin.in" target="_blank" title="Facebook">📘</a>
-    <a href="https://twitter.com/intent/tweet?url=https://tools.selbin.in&text=Smart%20Tools%20Online" target="_blank" title="Twitter">🐦</a>
-    <a href="https://t.me/share/url?url=https://tools.selbin.in&text=Smart%20Tools" target="_blank" title="Telegram">📨</a>
-    <button onclick="copyLink()" title="Copy Link">🔗</button>
+  <!-- Floating Share Button -->
+  <div class="floating-share">
+    <button class="share-main" onclick="toggleShareMenu()" title="Share this site">
+      <i class="fas fa-share-alt"></i>
+    </button>
+    <div class="share-options" id="shareOptions">
+      <a href="https://api.whatsapp.com/send?text=https://tools.selbin.in" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://tools.selbin.in" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+      <a href="https://twitter.com/intent/tweet?url=https://tools.selbin.in&text=Smart%20Tools%20Online" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+      <a href="https://t.me/share/url?url=https://tools.selbin.in&text=Smart%20Tools" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+      <button onclick="copyLink()"><i class="fas fa-link"></i> Copy Link</button>
+    </div>
   </div>
 
   <script>
+    function toggleShareMenu() {
+      const options = document.getElementById('shareOptions');
+      options.style.display = options.style.display === 'flex' ? 'none' : 'flex';
+    }
+
     function copyLink() {
       navigator.clipboard.writeText("https://tools.selbin.in").then(() => {
         alert("Link copied to clipboard!");
