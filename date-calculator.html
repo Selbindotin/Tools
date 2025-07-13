@@ -1,1 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Date Tools</title>
+  <style>
+    :root {
+      --primary: #007bff;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --text: #333;
+    }
 
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .page {
+      display: none;
+      padding: 20px;
+      animation: slideIn 0.4s ease;
+    }
+
+    .active {
+      display: block;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
+      gap: 15px;
+      padding: 10px 20px;
+    }
+
+    .tile {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      padding: 25px 15px;
+      border-radius: 16px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 500;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      cursor: pointer;
+      transition: transform 0.25s ease, opacity 0.25s;
+    }
+
+    .tile:hover {
+      transform: translateY(-5px);
+      opacity: 0.95;
+    }
+
+    .tile i {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .back-btn {
+      background: #444;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      width: 100%;
+      background: #28a745;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .result {
+      margin-top: 15px;
+      color: green;
+      font-weight: bold;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 480px) {
+      .tiles {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+  <!-- You can optionally add icons via Google Fonts (Material Icons or Font Awesome) -->
+</head>
+<body>
+
+  <!-- Home Tile Page -->
+  <div class="page active" id="home">
+    <h1>🧮 Smart Date Tools</h1>
+    <div class="tiles">
+      <div class="tile" onclick="showPage('age')">
+        <i>🎂</i>
+        Age Calculator
+      </div>
+      <div class="tile" onclick="showPage('between')">
+        <i>📅</i>
+        Days Between
+      </div>
+      <div class="tile" onclick="showPage('tofrom')">
+        <i>🔁</i>
+        Days To/From
+      </div>
+      <div class="tile" onclick="showPage('future')">
+        <i>⏩</i>
+        Future Date
+      </div>
+      <div class="tile" onclick="showPage('dobfromage')">
+        <i>📆</i>
+        DOB from Age
+      </div>
+    </div>
+  </div>
+
+  <!-- Age Calculator -->
+  <div class="page" id="age">
+    <button class="back-btn" onclick="showPage('home')">← Back</button>
+    <div class="card">
+      <h2>🎂 Age Calculator</h2>
+      <label>Date of Birth:</label>
+      <input type="date" id="dob">
+      <button onclick="calculateAge()">Calculate</button>
+      <div class="result" id="ageResult"></div>
+    </div>
+  </div>
+
+  <!-- Days Between -->
+  <div class="page" id="between">
+    <button class="back-btn" onclick="showPage('home')">← Back</button>
+    <div class="card">
+      <h2>📅 Days Between Dates</h2>
+      <label>Start Date:</label>
+      <input type="date" id="date1">
+      <label>End Date:</label>
+      <input type="date" id="date2">
+      <button onclick="calculateDaysBetween()">Calculate</button>
+      <div class="result" id="daysBetweenResult"></div>
+    </div>
+  </div>
+
+  <!-- Days To/From -->
+  <div class="page" id="tofrom">
+    <button class="back-btn" onclick="showPage('home')">← Back</button>
+    <div class="card">
+      <h2>🔁 Days To/From a Date</h2>
+      <label>Target Date:</label>
+      <input type="date" id="targetDate">
+      <button onclick="calculateDaysToFrom()">Calculate</button>
+      <div class="result" id="daysToFromResult"></div>
+    </div>
+  </div>
+
+  <!-- Future Date -->
+  <div class="page" id="future">
+    <button class="back-btn" onclick="showPage('home')">← Back</button>
+    <div class="card">
+      <h2>⏩ Date After N Days</h2>
+      <label>Number of Days:</label>
+      <input type="number" id="numDays">
+      <button onclick="calculateFutureDate()">Calculate</button>
+      <div class="result" id="futureDateResult"></div>
+    </div>
+  </div>
+
+  <!-- DOB from Age -->
+  <div class="page" id="dobfromage">
+    <button class="back-btn" onclick="showPage('home')">← Back</button>
+    <div class="card">
+      <h2>📆 DOB from Age</h2>
+      <label>Enter Age:</label>
+      <input type="number" id="inputAge">
+      <button onclick="estimateDOB()">Estimate</button>
+      <div class="result" id="dobFromAgeResult"></div>
+    </div>
+  </div>
+
+  <script>
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function calculateAge() {
+      const dob = new Date(document.getElementById("dob").value);
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const m = today.getMonth() - dob.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+      document.getElementById("ageResult").innerText = `You are ${age} years old.`;
+    }
+
+    function calculateDaysBetween() {
+      const d1 = new Date(document.getElementById("date1").value);
+      const d2 = new Date(document.getElementById("date2").value);
+      const diff = Math.abs(d2 - d1);
+      const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      document.getElementById("daysBetweenResult").innerText = `${days} days between the dates.`;
+    }
+
+    function calculateDaysToFrom() {
+      const target = new Date(document.getElementById("targetDate").value);
+      const today = new Date();
+      const diff = Math.round((target - today) / (1000 * 60 * 60 * 24));
+      let msg = '';
+      if (diff > 0) msg = `${diff} days from today.`;
+      else if (diff < 0) msg = `${Math.abs(diff)} days ago.`;
+      else msg = 'That is today!';
+      document.getElementById("daysToFromResult").innerText = msg;
+    }
+
+    function calculateFutureDate() {
+      const days = parseInt(document.getElementById("numDays").value);
+      const today = new Date();
+      today.setDate(today.getDate() + days);
+      document.getElementById("futureDateResult").innerText = `Future Date: ${today.toDateString()}`;
+    }
+
+    function estimateDOB() {
+      const age = parseInt(document.getElementById("inputAge").value);
+      const today = new Date();
+      const birth = new Date(today.getFullYear() - age, today.getMonth(), today.getDate());
+      document.getElementById("dobFromAgeResult").innerText = `Estimated DOB: ${birth.toDateString()}`;
+    }
+  </script>
+</body>
+</html>
