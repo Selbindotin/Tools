@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SIP Calculator</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     * {
       font-family: 'Segoe UI', sans-serif;
@@ -12,10 +13,13 @@
       padding: 0;
       box-sizing: border-box;
     }
-    body {
+    body.light {
+      background: #f4f4f4;
+      color: #000;
+    }
+    body.dark {
       background: linear-gradient(to right, #3a6186, #89253e);
       color: #fff;
-      padding: 1rem;
     }
     h1 {
       text-align: center;
@@ -59,6 +63,7 @@
       background: #fff;
       border-radius: 1rem;
       padding: 1rem;
+      margin-top: 1rem;
     }
     table {
       width: 100%;
@@ -78,11 +83,16 @@
     }
   </style>
 </head>
-<body>
+<body class="dark">
   <h1>SIP Calculator</h1>
   <div class="container">
+    <button onclick="toggleMode()">Toggle Light/Dark Mode</button>
+
+    <label>Lump Sum Investment</label>
+    <input type="number" id="lumpsum" placeholder="Enter lump sum amount" />
+
     <label>Deposit Amount</label>
-    <input type="number" id="amount" placeholder="Enter amount" />
+    <input type="number" id="amount" placeholder="Enter SIP amount" />
 
     <label>Deposit Frequency</label>
     <select id="frequency">
@@ -112,35 +122,45 @@
     <canvas id="sipChart" height="300"></canvas>
 
     <div class="download-table">
-      <button onclick="downloadTable()">Download Report</button>
+      <button onclick="downloadTable()">Download CSV</button>
+      <button onclick="exportToPDF()">Export PDF</button>
       <div id="table-container"></div>
     </div>
   </div>
 
   <script>
+    function toggleMode() {
+      const body = document.body;
+      body.classList.toggle('dark');
+      body.classList.toggle('light');
+    }
+
     function calculateSIP() {
-      const P = parseFloat(document.getElementById('amount').value);
+      const P = parseFloat(document.getElementById('amount').value) || 0;
+      const lumpsum = parseFloat(document.getElementById('lumpsum').value) || 0;
       const freq = parseInt(document.getElementById('frequency').value);
       const r = parseFloat(document.getElementById('rate').value) / 100 / freq;
       const y = parseInt(document.getElementById('years').value) || 0;
       const m = parseInt(document.getElementById('months').value) || 0;
       const n = y * freq + Math.floor(m * freq / 12);
 
-      let futureValue = 0, invested = 0;
+      let sipFV = 0, invested = lumpsum;
       let tableHTML = `<table><tr><th>Period</th><th>Invested</th><th>Value</th></tr>`;
 
       for (let i = 1; i <= n; i++) {
-        futureValue = (futureValue + P) * (1 + r);
+        sipFV = (sipFV + P) * (1 + r);
         invested += P;
-        tableHTML += `<tr><td>${i}</td><td>₹${(P * i).toFixed(2)}</td><td>₹${futureValue.toFixed(2)}</td></tr>`;
+        tableHTML += `<tr><td>${i}</td><td>₹${(lumpsum + P * i).toFixed(2)}</td><td>₹${(sipFV + lumpsum * Math.pow(1 + r, n - i)).toFixed(2)}</td></tr>`;
       }
       tableHTML += '</table>';
 
-      const returns = futureValue - invested;
+      const lumpsumFV = lumpsum * Math.pow(1 + r, n);
+      const totalFV = sipFV + lumpsumFV;
+      const returns = totalFV - invested;
 
       document.getElementById('invested').textContent = invested.toFixed(2);
       document.getElementById('returns').textContent = returns.toFixed(2);
-      document.getElementById('total').textContent = futureValue.toFixed(2);
+      document.getElementById('total').textContent = totalFV.toFixed(2);
 
       document.getElementById('table-container').innerHTML = tableHTML;
 
@@ -183,6 +203,23 @@
       a.href = URL.createObjectURL(blob);
       a.download = 'sip_report.csv';
       a.click();
+    }
+
+    function exportToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text("SIP Report", 10, 10);
+
+      const rows = document.querySelectorAll("#table-container table tr");
+      let y = 20;
+      rows.forEach(row => {
+        const cells = row.querySelectorAll("td, th");
+        let text = Array.from(cells).map(cell => cell.textContent).join("    ");
+        doc.text(text, 10, y);
+        y += 10;
+      });
+
+      doc.save("sip_report.pdf");
     }
   </script>
 </body>
